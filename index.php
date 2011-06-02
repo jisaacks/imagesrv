@@ -14,7 +14,7 @@ if(!empty($_GET['background']))
     $colors = explode(',',$_GET['background']);
     if(is_array($colors) && count($colors) == 3)
     {
-        $is->setRGB($colors[0],$colors[1],$colors[2]);	
+        $is->setBackground($colors[0],$colors[1],$colors[2]);	
     }
 }
 

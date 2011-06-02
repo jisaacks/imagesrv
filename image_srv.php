@@ -17,7 +17,7 @@ class ImageSrv
         $this->image = $this->createImageFromFile($image_file);
     }
 
-    function setRGB($r, $g, $b)
+    function setBackground($r, $g, $b)
     {
         $this->r = (int) $r;
         $this->g = (int) $g;
