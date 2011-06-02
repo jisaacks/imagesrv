@@ -12,26 +12,30 @@ class ImageSrv
     private $g = 255;
     private $b = 255;
 
-    function load($image_file) 
+    public function load($image_file) 
     {
+        $this->getImageInfo($image_file);
         $this->image = $this->createImageFromFile($image_file);
     }
 
-    function setBackground($r, $g, $b)
+    public function setBackground($r, $g, $b)
     {
         $this->r = (int) $r;
         $this->g = (int) $g;
         $this->b = (int) $b;
     }
-
-    function createImageFromFile($image_file)
+    
+    private function getImageInfo($image_file)
     {
         $image_info = getimagesize($image_file);
 
         $this->original_width = $image_info[0];
         $this->original_height = $image_info[1];
         $this->original_type = $image_info[2];
-        
+    }
+
+    private function createImageFromFile($image_file)
+    {
         switch($this->original_type)
         {
             case IMAGETYPE_JPEG:
@@ -59,7 +63,7 @@ class ImageSrv
         return $im;	
     }
 
-    function setSize($width = NULL,$height = NULL) 
+    public function setSize($width = NULL,$height = NULL) 
     {
         if($width == NULL && $height == NULL)
         {
@@ -148,7 +152,7 @@ class ImageSrv
         $this->original_height = $height;
     }
 
-    function output($type=NULL) 
+    public function output($type=NULL) 
     {
         if($type == NULL)
         {
