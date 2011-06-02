@@ -1,6 +1,6 @@
 <?php
 
-require_once('image.php');
+require_once('image_srv.php');
 
 $is = new ImageSrv();
 
@@ -22,9 +22,4 @@ $is->setSize( $width, $height );
 
 $is->output();
 
-
-/*header('Content-Type: image/jpeg');
-$image = imagecreatefrompng('zoom.png');
-imagejpeg($image);
-*/
 ?>
