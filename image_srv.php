@@ -31,30 +31,32 @@ class ImageSrv
         $this->original_width = $image_info[0];
         $this->original_height = $image_info[1];
         $this->original_type = $image_info[2];
+        
+        switch($this->original_type)
+        {
+            case IMAGETYPE_JPEG:
+                $im = imagecreatefromjpeg($image_file);
+            break;
+        
+            case IMAGETYPE_GIF:
+                $im = imagecreatefromgif($image_file);
+            break;
+        
+            case IMAGETYPE_PNG:
+                $im = imagecreatefrompng($image_file);
+            break;
+        }
+        
+        /*
+         * preserve transpancy
+         * this keeps transparent files from having a black backgroung
+         * pngs converted to jpgs still have a black background
+         * not sure how to make it a different color
+         */
+        imagealphablending($im, false);
+        imagesavealpha($im, true);
 
-        if( $this->original_type == IMAGETYPE_JPEG ) 
-        {
-            return imagecreatefromjpeg($image_file);
-        } 
-        else if( $this->original_type == IMAGETYPE_GIF ) 
-        {
-            return imagecreatefromgif($image_file);
-        } 
-        else if( $this->original_type == IMAGETYPE_PNG ) 
-        {
-            /*
-             * create image and preserve transpancy
-             * this keeps png files from having a black backgroung
-             * when you don't resize them.
-             * pngs converted to jpgs still have a black background
-             * not sure how to make it a different color
-             */
-            $im = imagecreatefrompng($image_file);
-            imagealphablending($im, false);
-            imagesavealpha($im, true);
-
-            return $im;
-        }	
+        return $im;	
     }
 
     function setSize($width = NULL,$height = NULL) 
@@ -152,22 +154,25 @@ class ImageSrv
         {
             $type = $this->original_type;	
         }
-
-        if( $type == IMAGETYPE_JPEG ) 
+        
+        switch($type)
         {
-            header('Content-Type: image/jpeg');
-            imagejpeg($this->image);
-        } 
-        else if( $type == IMAGETYPE_GIF ) 
-        {
-            header('Content-Type: image/gif');
-            imagegif($this->image);         
-        } 
-        else if( $type == IMAGETYPE_PNG ) 
-        {
-            header('Content-Type: image/png');
-            imagepng($this->image);
-        }   
+            case IMAGETYPE_JPEG:
+                header('Content-Type: image/jpeg');
+                imagejpeg($this->image);
+            break;
+        
+            case IMAGETYPE_GIF:
+                header('Content-Type: image/gif');
+                imagegif($this->image);
+            break;
+        
+            case IMAGETYPE_PNG:
+            default:
+                header('Content-Type: image/png');
+                imagepng($this->image);
+            break;
+        }  
     }
 	
 }
