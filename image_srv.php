@@ -71,7 +71,6 @@ class ImageSrv
     }
 
     $ratio = $this->original_width / $this->original_height;
-    $new_ratio = $width / $height;
 
     if($width == NULL)
     {
@@ -90,6 +89,7 @@ class ImageSrv
       }
     }
 
+    $new_ratio = $width / $height;
 
     // if width is greater than original width 
     // set to original width and pad the difference
